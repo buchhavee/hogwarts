@@ -1,0 +1,18 @@
+info:
+  name: Get a single house
+  type: http
+
+http:
+  method: GET
+  url: http://localhose:3000/houses/:id
+  params:
+    - name: id
+      value: ""
+      type: path
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
