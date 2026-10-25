@@ -1,15 +1,11 @@
-DROP TABLE IF EXISTS course_students, courses, students, teachers, house_colors, houses CASCADE;
+DROP TABLE IF EXISTS course_students, courses, students, teachers, houses CASCADE;
 
 CREATE TABLE houses (
   id SERIAL PRIMARY KEY,
   name TEXT NOT NULL UNIQUE,
-  founder TEXT NOT NULL
-);
-
-CREATE TABLE house_colors (
-  house_id INT NOT NULL REFERENCES houses(id),
-  color TEXT NOT NULL,
-  PRIMARY KEY (house_id, color)
+  founder TEXT NOT NULL,
+  primary_color TEXT NOT NULL,
+  secondary_color TEXT NOT NULL
 );
 
 CREATE TABLE students (
