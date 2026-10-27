@@ -9,4 +9,4 @@ const pool = new Pool({
   database: process.env.PGDATABASE,
 });
 
-export default pool;
+export { pool };

@@ -1,6 +1,6 @@
 import { getAllStudents, getStudentById, createStudent, updateStudent, deleteStudent } from "../repositories/students.repository.js";
 
-export const getStudents = async (req, res) => {
+export async function getStudents(req, res) {
   try {
     const students = await getAllStudents();
     res.status(200).json(students);
@@ -10,7 +10,7 @@ export const getStudents = async (req, res) => {
   }
 };
 
-export const getStudent = async (req, res) => {
+export async function getStudent(req, res) {
   try {
     const student = await getStudentById(req.params.id);
     if (!student) return res.sendStatus(404);
@@ -21,7 +21,7 @@ export const getStudent = async (req, res) => {
   }
 };
 
-export const addStudent = async (req, res) => {
+export async function addStudent(req, res) {
   try {
     const { name, house_id } = req.body;
     if (!name || !house_id) return res.sendStatus(400);
@@ -33,7 +33,7 @@ export const addStudent = async (req, res) => {
   }
 };
 
-export const editStudent = async (req, res) => {
+export async function editStudent(req, res) {
   try {
     const { name, house_id } = req.body;
     if (!name || !house_id) return res.sendStatus(400);
@@ -46,7 +46,7 @@ export const editStudent = async (req, res) => {
   }
 };
 
-export const removeStudent = async (req, res) => {
+export async function removeStudent(req, res) {
   try {
     const student = await deleteStudent(req.params.id);
     if (!student) return res.sendStatus(404);

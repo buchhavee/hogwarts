@@ -1,3 +1,4 @@
+import "dotenv/config";
 import express from "express";
 import teachersRouter from "./routes/teachers.route.js";
 import studentsRouter from "./routes/students.route.js";
@@ -10,6 +11,6 @@ app.use("/teachers", teachersRouter);
 app.use("/students", studentsRouter);
 app.use("/houses", housesRouter);
 
-app.listen(3000, () => {
-  console.log("Server is running on port 3000");
+app.listen(process.env.PORT, () => {
+  console.log(`Server is running on port ${process.env.PORT}`);
 });

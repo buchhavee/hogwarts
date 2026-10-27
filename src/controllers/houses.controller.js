@@ -1,6 +1,6 @@
 import { getAllHouses, getHouseById } from "../repositories/houses.repository.js";
 
-export const getHouses = async (req, res) => {
+export async function getHouses(req, res) {
   try {
     const houses = await getAllHouses();
     res.status(200).json(houses);
@@ -8,9 +8,9 @@ export const getHouses = async (req, res) => {
     console.log(err);
     res.status(500).json({ error: "Database error" });
   }
-};
+}
 
-export const getHouse = async (req, res) => {
+export async function getHouse(req, res) {
   try {
     const house = await getHouseById(req.params.id);
     if (!house) return res.sendStatus(404);
@@ -19,4 +19,4 @@ export const getHouse = async (req, res) => {
     console.log(err);
     res.status(500).json({ error: "Database error" });
   }
-};
+}
