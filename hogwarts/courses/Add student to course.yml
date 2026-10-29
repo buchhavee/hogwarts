@@ -5,11 +5,10 @@ info:
 
 http:
   method: POST
-  url: http://localhost:3000/courses/:id/students
-  params:
-    - name: id
-      value: ""
-      type: path
+  url: http://localhost:3000/courses/2/students
+  body:
+    type: json
+    data: '{ "student_id": 3 }'
   auth: inherit
 
 settings:

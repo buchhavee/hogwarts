@@ -6,6 +6,9 @@ info:
 http:
   method: POST
   url: http://localhost:3000/courses/
+  body:
+    type: json
+    data: '{ "name": "Defence Against the Dark Arts", "teacher_id": 1 }'
   auth: inherit
 
 settings:

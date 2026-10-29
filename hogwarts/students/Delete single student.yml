@@ -1,5 +1,5 @@
 info:
-  name: Delete single teacher
+  name: Delete single student
   type: http
   seq: 5
 
