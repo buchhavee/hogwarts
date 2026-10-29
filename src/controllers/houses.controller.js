@@ -3,6 +3,7 @@ import { getAllHouses, getHouseById } from "../repositories/houses.repository.js
 export async function getHouses(req, res) {
   try {
     const houses = await getAllHouses();
+    if (!house) return res.sendStatus(404);
     res.status(200).json(houses);
   } catch (err) {
     console.log(err);

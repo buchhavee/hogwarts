@@ -13,14 +13,14 @@ export async function getCourseById(id) {
 }
 
 // Opret en ny course
-export async function createCourse(name, house_id) {
-  const result = await pool.query("INSERT INTO courses (name, house_id) VALUES ($1, $2) RETURNING *", [name, house_id]);
+export async function createCourse(name, teacher_id) {
+  const result = await pool.query("INSERT INTO courses (name, teacher_id) VALUES ($1, $2) RETURNING *", [name, teacher_id]);
   return result.rows[0];
 }
 
 // Opdater et course
-export async function updateCourse(id, name, house_id) {
-  const result = await pool.query("UPDATE courses SET name = $1, house_id = $2 WHERE id = $3 RETURNING *", [name, house_id, id]);
+export async function updateCourse(id, name, teacher_id) {
+  const result = await pool.query("UPDATE courses SET name = $1, teacher_id = $2 WHERE id = $3 RETURNING *", [name, teacher_id, id]);
   return result.rows[0] ?? null;
 }
 
