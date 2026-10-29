@@ -1,0 +1,19 @@
+info:
+  name: Add student to course
+  type: http
+  seq: 7
+
+http:
+  method: POST
+  url: http://localhost:3000/courses/:id/students
+  params:
+    - name: id
+      value: ""
+      type: path
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
