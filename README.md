@@ -8,10 +8,10 @@ Man kan hente houses, oprette, rette og slette teachers, students og courses, sk
 
 ## Opsætning
 
-Kør install `npm install`
-Opret en database i pgAdmin og indsæt indholdet i `database/hogwarts.sql` i en query
-Kopier `.env.example` og udfyld værdierne `.env`
-Kør `npm run dev`
+1. Kør install `npm install`
+2. Opret en database i pgAdmin og indsæt indholdet i `database/hogwarts.sql` i en query
+3. Kopier `.env.example` og udfyld værdierne `.env`
+4. Kør `npm run dev`
 
 ## Endpoints
 
