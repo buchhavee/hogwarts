@@ -2,7 +2,7 @@ import { pool } from "../db.js";
 
 // Hent alle courses
 export async function getAllCourses() {
-  const result = await pool.query("SELECT * FROM courses");
+  const result = await pool.query("SELECT * FROM courses ORDER BY id");
   return result.rows;
 }
 
@@ -12,15 +12,23 @@ export async function getCourseById(id) {
   return result.rows[0] ?? null;
 }
 
-// Opret en ny course
-export async function createCourse(name, teacher_id) {
-  const result = await pool.query("INSERT INTO courses (name, teacher_id) VALUES ($1, $2) RETURNING *", [name, teacher_id]);
+// Opret et nyt course. course er det objekt CreateCourseDTO har godkendt
+export async function createCourse(course) {
+  const { name, teacher_id, type, level, school_year } = course;
+  const result = await pool.query(
+    "INSERT INTO courses (name, teacher_id, type, level, school_year) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+    [name, teacher_id, type, level, school_year]
+  );
   return result.rows[0];
 }
 
-// Opdater et course
-export async function updateCourse(id, name, teacher_id) {
-  const result = await pool.query("UPDATE courses SET name = $1, teacher_id = $2 WHERE id = $3 RETURNING *", [name, teacher_id, id]);
+// Opdater et course. course er det objekt UpdateCourseDTO har godkendt
+export async function updateCourse(id, course) {
+  const { name, teacher_id, type, level, school_year } = course;
+  const result = await pool.query(
+    "UPDATE courses SET name = $1, teacher_id = $2, type = $3, level = $4, school_year = $5 WHERE id = $6 RETURNING *",
+    [name, teacher_id, type, level, school_year, id]
+  );
   return result.rows[0] ?? null;
 }
 

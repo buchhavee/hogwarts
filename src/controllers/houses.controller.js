@@ -1,21 +1,14 @@
-import { getAllHouses, getHouseById } from "../repositories/houses.repository.js";
+import * as housesRepository from "../repositories/houses.repository.js";
+import { HTTPError } from "../errors/HTTPError.js";
 
 export async function getHouses(req, res) {
-  try {
-    const houses = await getAllHouses();
-    res.status(200).json(houses);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: "Database error" });
-  }
+  const houses = await housesRepository.getAllHouses();
+  res.status(200).json(houses);
 }
 
 export async function getHouse(req, res) {
-  try {
-    const house = await getHouseById(req.params.id);
-    res.status(200).json(house);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: "Database error" });
-  }
+  const id = req.params.id;
+  const house = await housesRepository.getHouseById(id);
+  if (!house) throw new HTTPError(404, "House not found");
+  res.status(200).json(house);
 }

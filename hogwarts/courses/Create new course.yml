@@ -8,7 +8,7 @@ http:
   url: http://localhost:3000/courses/
   body:
     type: json
-    data: '{ "name": "Defence Against the Dark Arts", "teacher_id": 1 }'
+    data: '{ "name": "Defence Against the Dark Arts", "teacher_id": 1, "type": "core", "level": "OWL", "school_year": 5 }'
   auth: inherit
 
 settings:

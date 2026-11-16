@@ -68,3 +68,56 @@ slet rækken i course_students med de to id'er
 Hvis der ikke var nogen række - return 404
 Ellers: returner en 204 uden indhold
 Hvis der sker en uventet fejl i databasen - return 500
+
+Fælles for alle endpoints i 2.0:
+Hvis bodyen ikke passer til DTO'en (Zod) - return 400
+Hvis et id i bodyen ikke findes i den anden tabel (foreign key) - return 400
+Hvis dataene bryder en regel i databasen (CHECK) - return 400
+Hvis noget allerede findes (UNIQUE) - return 409
+Hvis der sker en uventet fejl - return 500
+Fejlene kastes i controlleren og fanges af errorHandler
+
+Create/add course:
+POST /courses
+find dataene fra bodyen (requesten)
+tjek dataene med CreateCourseDTO (name, teacher_id, type, level, school_year)
+Hvis level er OWL og school_year er over 5, eller level er NEWT og school_year er under 6 - return 400
+opret elementet i databasen
+lav det nye element om til json, returner det med en 201
+
+Create/add exam:
+POST /exams
+find dataene fra bodyen (requesten)
+tjek dataene med CreateExamDTO (course_id, student_id, grade)
+opret elementet i databasen
+Hvis course_id, student_id eller grade ikke findes - return 400
+Hvis eleven allerede har en karakter i faget - return 409
+Ellers: lav det nye element om til json, returner det med en 201
+
+Update single exam:
+PUT /exams/:id
+find id'et fra routen (requesten)
+find dataene fra bodyen og tjek dem med UpdateExamDTO
+opdater elementet i databasen med det id
+Hvis der ikke var noget med det id - return 404
+Ellers: lav det opdaterede element om til json, returner det med en 200
+
+Delete single exam:
+DELETE /exams/:id
+find id'et fra routen (requesten)
+slet elementet i databasen med det id
+Hvis der ikke var noget med det id - return 404
+Ellers: returner en 204 uden indhold
+
+Get all grades:
+GET /grades
+hent alle grades fra databasen
+lav listen om til json, returner den med en 200
+
+Get single grade:
+GET /grades/:letter
+find bogstavet fra routen (requesten) og lav det til stort bogstav
+find den grade i databasen med det bogstav
+Hvis der ikke var noget - return 404
+Ellers: lav elementet om til json, returner det med en 200
+(Der er ingen POST, PUT eller DELETE på grades - karaktersystemet må ikke ændres fra klienten)
