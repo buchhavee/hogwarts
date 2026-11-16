@@ -8,7 +8,7 @@ http:
   url: http://localhost:3000/teachers/1
   body:
     type: json
-    data: '{ "name": "Mads Buchhavius", "house_id": 4 }'
+    data: '{ "name": "Mads Buchhavius", "house_id": 4, "employment_start": "2020-09-01", "currently_active": true, "deceased": false }'
   auth: inherit
 
 settings:

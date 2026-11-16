@@ -2,9 +2,11 @@
 
 ## Beskrivelse
 
-Projektet er et REST API til Hogwarts databasen, som håndterer houses, teachers, students og courses med CRUD-funktioner.
+Projektet er et REST API til Hogwarts databasen, som håndterer houses, teachers, students, courses, exams og grades med CRUD-funktioner.
 API'et er lavet med Node.js og Express, og data gemmes i en PostgreSQL database, som er sat op med SQL.
-Man kan hente houses, oprette, rette og slette teachers, students og courses, skifte lærer på et kursus samt tilføje og fjerne elever fra et kursus.
+Man kan hente houses, oprette, rette og slette teachers, students og courses, skifte lærer på et kursus samt tilføje og fjerne elever fra et kursus. Man kan oprette, rette og slette exams (karakterer) og hente karaktersystemet (grades), som ikke kan ændres fra klienten.
+
+Al data fra bodyen valideres med Zod-DTO'er i `src/dtos/`. Fejl samles i `src/middleware/errorHandler.js`, som sender den rigtige statuskode. Se [OBJECTDESIGN.md](OBJECTDESIGN.md) for hvordan objekterne ser ud ind og ud af API'et.
 
 ## Opsætning
 
@@ -50,6 +52,21 @@ Man kan hente houses, oprette, rette og slette teachers, students og courses, sk
 | PUT | /courses/:id/teacher | Skift lærer på et course |
 | POST | /courses/:id/students | Tilføj en student til et course |
 | DELETE | /courses/:id/students/:studentId | Fjern en student fra et course |
+
+### Exams
+| Metode | Route | Beskrivelse |
+|---|---|---|
+| GET | /exams | Hent alle exams |
+| GET | /exams/:id | Hent en exam |
+| POST | /exams | Opret en exam (karakter til en elev i et fag) |
+| PUT | /exams/:id | Opdater en exam |
+| DELETE | /exams/:id | Slet en exam |
+
+### Grades
+| Metode | Route | Beskrivelse |
+|---|---|---|
+| GET | /grades | Hent alle grades |
+| GET | /grades/:letter | Hent en grade ud fra bogstavet, fx /grades/O |
 
 ## Test med Bruno
 

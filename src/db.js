@@ -1,5 +1,9 @@
 import pg from "pg";
-const { Pool } = pg;
+const { Pool, types } = pg;
+
+// DATE-kolonner (type 1082) skal komme ud som tekst, fx "1980-07-31",
+// i stedet for et JavaScript Date-objekt med klokkeslæt og tidszone
+types.setTypeParser(1082, (value) => value);
 
 const pool = new Pool({
   host: process.env.PGHOST,

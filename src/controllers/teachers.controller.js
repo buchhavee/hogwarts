@@ -1,58 +1,41 @@
-import { getAllTeachers, getTeacherById, createTeacher, updateTeacher, deleteTeacher } from "../repositories/teachers.repository.js";
+import * as teachersRepository from "../repositories/teachers.repository.js";
+import { CreateTeacherDTO, UpdateTeacherDTO } from "../dtos/teachers.dto.js";
+import { HTTPError } from "../errors/HTTPError.js";
+
+// Fejl (fx ZodError fra .parse eller fejl fra databasen) bliver sendt videre
+// til errorHandler af Express, så der er ingen try/catch her.
 
 export async function getTeachers(req, res) {
-  try {
-    const teachers = await getAllTeachers();
-    res.status(200).json(teachers);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: "Database error" });
-  }
+  const teachers = await teachersRepository.getAllTeachers();
+  res.status(200).json(teachers);
 }
 
 export async function getTeacher(req, res) {
-  try {
-    const teacher = await getTeacherById(req.params.id);
-    if (!teacher) return res.sendStatus(404);
-    res.status(200).json(teacher);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: "Database error" });
-  }
+  const id = req.params.id;
+  const teacher = await teachersRepository.getTeacherById(id);
+  if (!teacher) throw new HTTPError(404, "Teacher not found");
+  res.status(200).json(teacher);
 }
 
 export async function addTeacher(req, res) {
-  try {
-    const { name, house_id } = req.body;
-    if (!name || !house_id) return res.sendStatus(400);
-    const teacher = await createTeacher(name, house_id);
-    res.status(201).json(teacher);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: "Database error" });
-  }
+  const data = req.body;
+  const teacher = CreateTeacherDTO.parse(data); // ugyldig data -> 400
+  const newTeacher = await teachersRepository.createTeacher(teacher);
+  res.status(201).json(newTeacher);
 }
 
 export async function editTeacher(req, res) {
-  try {
-    const { name, house_id } = req.body; // henter de nye data
-    if (!name || !house_id) return res.sendStatus(400); // mangler noget så 400
-    const teacher = await updateTeacher(req.params.id, name, house_id);
-    if (!teacher) return res.sendStatus(404); // findes id 2 ikke så 404
-    res.status(200).json(teacher); // ellers 200 + den opdaterede teacher
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: "Database error" });
-  }
+  const id = req.params.id;
+  const data = req.body;
+  const teacher = UpdateTeacherDTO.parse(data);
+  const updatedTeacher = await teachersRepository.updateTeacher(id, teacher);
+  if (!updatedTeacher) throw new HTTPError(404, "No teacher to update");
+  res.status(200).json(updatedTeacher);
 }
 
 export async function removeTeacher(req, res) {
-  try {
-    const teacher = await deleteTeacher(req.params.id);
-    if (!teacher) return res.sendStatus(404);
-    res.sendStatus(204);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: "Database error" });
-  }
+  const id = req.params.id;
+  const deletedTeacher = await teachersRepository.deleteTeacher(id);
+  if (!deletedTeacher) throw new HTTPError(404, "No teacher to delete");
+  res.sendStatus(204);
 }
